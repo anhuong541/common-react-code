@@ -1,11 +1,19 @@
-import { useContext } from 'react'
-import { ToggleStateContext } from '@/contexts/toggle-context'
+import { useCallback, useState } from 'react'
 
+// Simple app toggle hook
 export default function useAppToggle() {
-  const context = useContext(ToggleStateContext)
-  if (!context) {
-    throw new Error('useAppToggle must be used within a ToggleStateContextProvider')
-  }
+  const [toggleOpen, setToggleOpen] = useState<Record<string, boolean>>({})
 
-  return context
+  const handleOpen = useCallback((key: string) => {
+    setToggleOpen(prev => ({ ...prev, [key]: true }))
+  }, [])
+  const handleClose = useCallback((key: string) => {
+    setToggleOpen(prev => ({ ...prev, [key]: false }))
+  }, [])
+  const handleToggle = useCallback((key: string) => {
+    setToggleOpen(prev => ({ ...prev, [key]: !prev[key] }))
+  }, [])
+  const isToggleOpen = useCallback((key: string) => toggleOpen[key], [toggleOpen])
+
+  return { toggleOpen, handleOpen, handleClose, handleToggle, isToggleOpen }
 }

@@ -2,22 +2,24 @@ import ToggleStateContext from './ToggleContext'
 import { useCallback, useMemo, useState } from 'react'
 
 export default function ToggleStateContextProvider({ children }: { children: React.ReactNode }) {
-  const [modalsOpen, setModalsOpen] = useState<Record<string, boolean>>({})
+  // FIX: this is a temporary solution to the problem of having multiple unneeded rerenders from the whole app
+  // TODO: find a better solution to this problem same at redux
+  const [toggleOpen, setToggleOpen] = useState<Record<string, boolean>>({})
 
   const handleOpen = useCallback((key: string) => {
-    setModalsOpen(prev => ({ ...prev, [key]: true }))
+    setToggleOpen(prev => ({ ...prev, [key]: true }))
   }, [])
   const handleClose = useCallback((key: string) => {
-    setModalsOpen(prev => ({ ...prev, [key]: false }))
+    setToggleOpen(prev => ({ ...prev, [key]: false }))
   }, [])
   const handleToggle = useCallback((key: string) => {
-    setModalsOpen(prev => ({ ...prev, [key]: !prev[key] }))
+    setToggleOpen(prev => ({ ...prev, [key]: !prev[key] }))
   }, [])
-  const isModalOpen = useCallback((key: string) => modalsOpen[key], [modalsOpen])
+  const isToggleOpen = useCallback((key: string) => toggleOpen[key], [toggleOpen])
 
   const contextValue = useMemo(
-    () => ({ modalsOpen, handleOpen, handleClose, handleToggle, isModalOpen }),
-    [handleClose, handleOpen, handleToggle, modalsOpen, isModalOpen]
+    () => ({ toggleOpen, handleOpen, handleClose, handleToggle, isToggleOpen }),
+    [handleClose, handleOpen, handleToggle, isToggleOpen, toggleOpen]
   )
 
   return <ToggleStateContext value={contextValue}>{children}</ToggleStateContext>

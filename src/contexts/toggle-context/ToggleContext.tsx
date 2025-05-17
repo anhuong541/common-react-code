@@ -1,17 +1,17 @@
 import { createContext } from 'react'
 
 const ToggleStateContext = createContext<{
-  modalsOpen: Record<string, boolean>
+  toggleOpen: Record<string, boolean>
   handleOpen: (key: string) => void
   handleClose: (key: string) => void
   handleToggle: (key: string) => void
-  isModalOpen: (key: string) => boolean
+  isToggleOpen: (key: string) => boolean
 }>({
-  modalsOpen: {},
+  toggleOpen: {},
   handleOpen: () => {},
   handleClose: () => {},
   handleToggle: () => {},
-  isModalOpen: () => false
+  isToggleOpen: () => false
 })
 
 export default ToggleStateContext
