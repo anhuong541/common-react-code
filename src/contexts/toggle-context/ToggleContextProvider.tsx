@@ -1,25 +1,78 @@
+'use client'
+
 import ToggleStateContext from './ToggleContext'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useSyncExternalStore } from 'react'
 
+type ToggleState = Record<string, boolean>
+type Listener = () => void
+
+export type ToggleStore = {
+  getState: () => ToggleState
+  subscribe: (listener: Listener) => () => void
+  setToggle: (key: string, value: boolean) => void
+  toggle: (key: string) => void
+}
+
+export const createToggleStore = (): ToggleStore => {
+  let state: ToggleState = {}
+  const listeners = new Set<Listener>()
+
+  const getState = () => state
+
+  const subscribe = (listener: Listener) => {
+    listeners.add(listener)
+    return () => listeners.delete(listener)
+  }
+
+  const setToggle = (key: string, value: boolean) => {
+    state = { ...state, [key]: value }
+    listeners.forEach(listener => listener())
+  }
+
+  const toggle = (key: string) => {
+    const current = state[key] ?? false
+    setToggle(key, !current)
+  }
+
+  return {
+    getState,
+    subscribe,
+    setToggle,
+    toggle
+  }
+}
+
+export const toggleStore = createToggleStore()
+/**
+ * NOTE:
+ * - This template is handle the toggle modal solution and save it to global state
+ *
+ * []
+ */
 export default function ToggleStateContextProvider({ children }: { children: React.ReactNode }) {
-  // FIX: this is a temporary solution to the problem of having multiple unneeded rerenders from the whole app
-  // TODO: find a better solution to this problem same at redux
-  const [toggleOpen, setToggleOpen] = useState<Record<string, boolean>>({})
-
   const handleOpen = useCallback((key: string) => {
-    setToggleOpen(prev => ({ ...prev, [key]: true }))
+    toggleStore.setToggle(key, true)
   }, [])
+
   const handleClose = useCallback((key: string) => {
-    setToggleOpen(prev => ({ ...prev, [key]: false }))
+    toggleStore.setToggle(key, false)
   }, [])
+
   const handleToggle = useCallback((key: string) => {
-    setToggleOpen(prev => ({ ...prev, [key]: !prev[key] }))
+    toggleStore.toggle(key)
   }, [])
-  const isToggleOpen = useCallback((key: string) => toggleOpen[key], [toggleOpen])
+
+  const isToggleOpen = (key: string) => {
+    return useSyncExternalStore(
+      callback => toggleStore.subscribe(callback),
+      () => toggleStore.getState()[key] ?? false,
+      () => false // <-- getServerSnapshot fallback (for SSR)
+    )
+  }
 
   const contextValue = useMemo(
-    () => ({ toggleOpen, handleOpen, handleClose, handleToggle, isToggleOpen }),
-    [handleClose, handleOpen, handleToggle, isToggleOpen, toggleOpen]
+    () => ({ handleOpen, handleClose, handleToggle, isToggleOpen }),
+    [handleClose, handleOpen, handleToggle, isToggleOpen]
   )
 
   return <ToggleStateContext value={contextValue}>{children}</ToggleStateContext>

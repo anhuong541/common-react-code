@@ -52,7 +52,7 @@ if (!i18n.isInitialized) {
     .use(initReactI18next)
     .init({
       ...i18nConfig,
-      debug: process.env.NODE_ENV === 'development',
+      // debug: process.env.NODE_ENV === 'development',
       fallbackLng: 'vi',
       react: {
         useSuspense: true // If you're handling Suspense manually
