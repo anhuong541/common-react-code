@@ -1,23 +1,22 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState } from 'react'
+import { useDebouncedCallback } from './useDebounce'
+import useOnMount from './useOnMount'
 
 export default function useScreenView() {
   const [screenView, setScreenView] = useState<number | null>(null)
-  const handleScreenView = useCallback(() => {
+
+  const handleScreenView = useDebouncedCallback(() => {
     setScreenView(window?.innerWidth)
-  }, [])
+  }, 500)
 
-  useEffect(() => {
-    handleScreenView()
-  })
-
-  useEffect(() => {
+  useOnMount(() => handleScreenView())
+  useOnMount(() => {
     window?.addEventListener('resize', handleScreenView)
 
     return () => {
       window?.removeEventListener('resize', handleScreenView)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   return {
     screenView: Number(screenView),

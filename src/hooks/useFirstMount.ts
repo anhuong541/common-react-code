@@ -1,7 +1,9 @@
-import { useRef } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function useFirstMount() {
-  const isMountRef = useRef(false)
-  isMountRef.current = true
-  return { isMount: isMountRef.current }
+  const [isMount, setIsMount] = useState(false)
+  useEffect(() => {
+    setIsMount(true)
+  }, [])
+  return { isMount }
 }
