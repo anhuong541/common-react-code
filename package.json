@@ -4,9 +4,17 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "dev:https": "next dev --experimental-https",
+    "dev:https-domain": "node server-https.js",
+    "certs:check": "powershell -File manage-certs.ps1 check",
+    "certs:generate": "powershell -File manage-certs.ps1 generate",
+    "certs:install": "powershell -File manage-certs.ps1 install",
+    "certs:info": "powershell -File manage-certs.ps1 info",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "lint": "npm run eslint && npm run stylelint",
+    "eslint": "next lint",
     "format": "prettier --write . && eslint --fix .",
     "format:check": "prettier --check ."
   },
@@ -23,6 +31,7 @@
     "i18next-resources-to-backend": "^1.2.1",
     "next": "15.3.2",
     "next-i18n-router": "^5.5.2",
+    "next-intl": "^4.3.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-i18next": "^15.5.1",
@@ -30,15 +39,16 @@
     "tailwind-merge": "^3.3.0"
   },
   "devDependencies": {
-    "prettier": "^3.5.3",
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
-    "@eslint/eslintrc": "^3"
+    "prettier": "^3.5.3",
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }

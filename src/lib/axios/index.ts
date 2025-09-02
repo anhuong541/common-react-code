@@ -28,11 +28,11 @@ const applyInterceptors = (instance: AxiosInstance) => {
   )
 }
 
-export const createApiInstance = (config?: CreateAxiosDefaults) => {
+export const createInstance = (config?: CreateAxiosDefaults) => {
   const instance = axios.create({
     baseURL: '/',
     headers: { 'Content-Type': 'application/json' },
-    ...config
+    ...config,
   })
   applyInterceptors(instance)
   return instance
