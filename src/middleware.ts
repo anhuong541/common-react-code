@@ -15,6 +15,8 @@ const intlMiddleware = createMiddleware({
 })
 
 export function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname
+
   // Check for x-locale header for custom locale detection
   const xLocaleHeader = request.headers.get('x-locale')
   if (xLocaleHeader && (locales as readonly string[]).includes(xLocaleHeader)) {
@@ -25,10 +27,17 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(url)
     }
   }
+
+  // Skip middleware for static files
+  if (pathname.startsWith('/_next') || (pathname.includes('.') && !pathname.endsWith('.html'))) {
+    return NextResponse.next()
+  }
+
   // Handle CORS for API routes
   if (
-    request.nextUrl.pathname.startsWith('/api') ||
-    request.nextUrl.pathname.startsWith('/graphql')
+    request.headers.get('next-action') ||
+    pathname.startsWith('/api') ||
+    pathname.startsWith('/graphql') // add the condition if we have graphql endpoint
   ) {
     const response = NextResponse.next()
 
@@ -50,7 +59,7 @@ export function middleware(request: NextRequest) {
   }
 
   // Handle auth callback and extract tokens from cookies
-  if (request.nextUrl.pathname.startsWith('/auth/callback')) {
+  if (pathname.startsWith('/auth/callback')) {
     const response = NextResponse.next()
 
     // Get cookies from the request
