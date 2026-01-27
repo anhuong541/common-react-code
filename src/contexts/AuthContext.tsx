@@ -5,7 +5,7 @@ import axios from 'axios'
 import { useLocale } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { notifyLogin, notifyLogout, useListenAuthEvents } from '@/utils/BroadcastChannel'
+import { notifyLogin, notifyLogout, useListenAuthEvents } from '@/utils/broadcastChannel'
 
 interface AuthResponse {
   user: any | null // TODO: Add user type

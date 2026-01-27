@@ -14,11 +14,3 @@ export function getLocalStorage<T>(key: string): T | null {
     return null
   }
 }
-
-export const toKebabCase = (text: string): string => {
-  return text
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-}
