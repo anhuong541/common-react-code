@@ -24,7 +24,7 @@ export const notifyLogout = () => {
 }
 
 // TODO: Add user type at (user: any)
-export const notifyLogin = (user: null) => {
+export const notifyLogin = (user: any | null) => {
   const channel = initBroadcastChannel()
   if (channel) {
     channel.postMessage({ type: 'LOGIN', user })
@@ -33,7 +33,7 @@ export const notifyLogin = (user: null) => {
 
 export const useListenAuthEvents = (
   onLogout: () => void,
-  onLogin?: (user: null) => void // TODO: Add user type
+  onLogin?: (user: any | null) => void // TODO: Add user type
 ) => {
   useEffect(() => {
     const channel = initBroadcastChannel()
