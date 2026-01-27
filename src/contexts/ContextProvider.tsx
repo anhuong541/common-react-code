@@ -1,5 +1,10 @@
-import { ToggleStateContextProvider } from './toggle-context'
+import { AuthContextProvider } from './AuthContext'
+import { ToggleStateContextProvider } from './ToggleContext'
 
 export default function ContextProvider({ children }: { children: React.ReactNode }) {
-  return <ToggleStateContextProvider>{children}</ToggleStateContextProvider>
+  return (
+    <ToggleStateContextProvider>
+      <AuthContextProvider>{children}</AuthContextProvider>
+    </ToggleStateContextProvider>
+  )
 }

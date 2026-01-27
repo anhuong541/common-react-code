@@ -24,7 +24,7 @@ interface AuthContextValue {
   logout: (callbackUrl?: string) => Promise<void>
 }
 
-const JobseekerAuthContext = createContext<AuthContextValue | null>(null)
+const AuthContext = createContext<AuthContextValue | null>(null)
 
 // Fetcher function for React Query
 const authFetcher = async (url: string): Promise<AuthResponse> => {
@@ -42,7 +42,7 @@ const authFetcher = async (url: string): Promise<AuthResponse> => {
 
 const AUTH_QUERY_KEY = ['jobseeker-auth']
 
-export function JobseekerAuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthContextProvider({ children }: { children: React.ReactNode }) {
   const locale = useLocale()
   const router = useRouter()
   const queryClient = useQueryClient()
@@ -249,13 +249,13 @@ export function JobseekerAuthProvider({ children }: { children: React.ReactNode 
     logout,
   }
 
-  return <JobseekerAuthContext.Provider value={value}>{children}</JobseekerAuthContext.Provider>
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
-export function useJobseekerAuthContext(): AuthContextValue {
-  const ctx = useContext(JobseekerAuthContext)
+export function useAuthContext(): AuthContextValue {
+  const ctx = useContext(AuthContext)
   if (!ctx) {
-    throw new Error('useJobseekerAuthContext must be used within JobseekerAuthProvider')
+    throw new Error('AuthContext must be used within JobseekerAuthProvider')
   }
   return ctx
 }

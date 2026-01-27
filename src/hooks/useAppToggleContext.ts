@@ -1,8 +1,8 @@
-import { useContext } from 'react'
-import { ToggleStateContext } from '@/contexts/toggle-context'
+import { use } from 'react'
+import { ToggleStateContext } from '@/contexts/ToggleContext'
 
 export default function useAppToggleContext() {
-  const context = useContext(ToggleStateContext)
+  const context = use(ToggleStateContext)
   if (!context) {
     throw new Error('useAppToggleContext must be used within a ToggleStateContextProvider')
   }
