@@ -2,8 +2,8 @@
 
 import { useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import useFirstMount from '@/hooks/useFirstMount'
-import useOnMount from '@/hooks/useOnMount'
+import useFirstMount from '@/hooks/common/useFirstMount'
+import useOnMount from '@/hooks/common/useOnMount'
 
 export default function ProcessOAuth() {
   const router = useRouter()

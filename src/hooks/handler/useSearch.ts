@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useDebouncedCallback } from './useDebounce'
+import { useDebouncedCallback } from '../common/useDebounce'
 
 export interface UseSearchOptions {
   initialValue?: string

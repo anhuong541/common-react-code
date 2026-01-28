@@ -22,6 +22,6 @@ export default function useScreenView() {
     screenView: Number(screenView),
     isLaptop: screenView ? screenView < 1024 : false,
     isTablet: screenView ? screenView < 768 : false,
-    isMobile: screenView ? screenView < 480 : false
+    isMobile: screenView ? screenView < 480 : false,
   }
 }

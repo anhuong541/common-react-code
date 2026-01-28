@@ -1,5 +1,6 @@
 import ClientProvider from './ClientProvider'
 
-export default function Providers({ children }: { children: React.ReactNode }) {
+// Note: This Component will handle server state management and client state management
+export default async function Providers({ children }: { children: React.ReactNode }) {
   return <ClientProvider>{children}</ClientProvider>
 }
