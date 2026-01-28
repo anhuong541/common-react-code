@@ -30,7 +30,7 @@ const applyInterceptors = (instance: AxiosInstance) => {
 
 export const createInstance = (config?: CreateAxiosDefaults) => {
   const instance = axios.create({
-    baseURL: '/',
+    baseURL: process.env.NEXT_PUBLIC_API_URL, // TODO: Add base URL
     headers: { 'Content-Type': 'application/json' },
     ...config,
   })
