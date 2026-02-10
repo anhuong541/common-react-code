@@ -3,8 +3,8 @@ import toggleSliceReducer from './slices/toggleSlice'
 
 export const store = configureStore({
   reducer: {
-    toggleSlice: toggleSliceReducer
-  }
+    toggleSlice: toggleSliceReducer,
+  },
 })
 
 export type RootState = ReturnType<typeof store.getState>

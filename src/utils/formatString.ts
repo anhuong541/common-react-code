@@ -22,7 +22,11 @@ export function isString(string: unknown): string is string {
  * @param {string} [locale=en_US] - The locale to use when breaking the text into segments.
  * @returns {string} Truncated text clipped to the limit, ideally ending on a natural stopping point.
  */
-export function truncateAroundLimit(text: string, limit: number, locale: string = 'en-US'): string {
+export function truncateAroundLimit(
+  text: string,
+  limit: number,
+  locale: string = 'en-US',
+): string {
   // If the text is shorter than the limit, return all the text, unaltered.
   if (text.length <= limit) {
     return text
@@ -39,7 +43,9 @@ export function truncateAroundLimit(text: string, limit: number, locale: string 
     const truncatedText = decodedText.slice(0, limit)
     const indexOfLastSpace = truncatedText.lastIndexOf(' ')
     if (indexOfLastSpace) {
-      return truncatedText.slice(0, indexOfLastSpace).trim() + terminatingPunctuation
+      return (
+        truncatedText.slice(0, indexOfLastSpace).trim() + terminatingPunctuation
+      )
     } else {
       // If the text is an _exteremly_ long word or block of text, like a URL
       return truncatedText.trim() + terminatingPunctuation
@@ -48,7 +54,7 @@ export function truncateAroundLimit(text: string, limit: number, locale: string 
 
   const sentences = Array.from(
     new Intl.Segmenter(locale, { granularity: 'sentence' }).segment(text),
-    s => s.segment
+    (s) => s.segment,
   )
 
   let result = ''
@@ -71,7 +77,7 @@ export function truncateAroundLimit(text: string, limit: number, locale: string 
 
   // Otherwise, fallback to building up single words until we approach the limit.
   const segments = Array.from(
-    new Intl.Segmenter(locale, { granularity: 'word' }).segment(decodedText)
+    new Intl.Segmenter(locale, { granularity: 'word' }).segment(decodedText),
   )
 
   result = ''

@@ -29,7 +29,10 @@ export function middleware(request: NextRequest) {
   }
 
   // Skip middleware for static files
-  if (pathname.startsWith('/_next') || (pathname.includes('.') && !pathname.endsWith('.html'))) {
+  if (
+    pathname.startsWith('/_next') ||
+    (pathname.includes('.') && !pathname.endsWith('.html'))
+  ) {
     return NextResponse.next()
   }
 
@@ -43,11 +46,17 @@ export function middleware(request: NextRequest) {
 
     // Set CORS headers
     response.headers.set('Access-Control-Allow-Credentials', 'true')
-    response.headers.set('Access-Control-Allow-Origin', request.headers.get('origin') || '*')
-    response.headers.set('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
+    response.headers.set(
+      'Access-Control-Allow-Origin',
+      request.headers.get('origin') || '*',
+    )
+    response.headers.set(
+      'Access-Control-Allow-Methods',
+      'GET,OPTIONS,PATCH,DELETE,POST,PUT',
+    )
     response.headers.set(
       'Access-Control-Allow-Headers',
-      'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization'
+      'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization',
     )
 
     // Handle preflight requests

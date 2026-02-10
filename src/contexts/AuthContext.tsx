@@ -5,7 +5,11 @@ import axios from 'axios'
 import { useLocale } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { notifyLogin, notifyLogout, useListenAuthEvents } from '@/utils/broadcastChannel'
+import {
+  notifyLogin,
+  notifyLogout,
+  useListenAuthEvents,
+} from '@/utils/broadcastChannel'
 
 interface AuthResponse {
   user: any | null // TODO: Add user type
@@ -19,7 +23,11 @@ interface AuthContextValue {
   isLoading: boolean
   error: string | null
   login: (email: string, password: string, saveLogin?: boolean) => Promise<void>
-  loginOauth: (access_token: string, refresh_token: string, expired_at: number) => Promise<void>
+  loginOauth: (
+    access_token: string,
+    refresh_token: string,
+    expired_at: number,
+  ) => Promise<void>
   register: (registerData: any) => Promise<void> // TODO: Add register data type
   logout: (callbackUrl?: string) => Promise<void>
 }
@@ -42,7 +50,11 @@ const authFetcher = async (url: string): Promise<AuthResponse> => {
 
 const AUTH_QUERY_KEY = ['jobseeker-auth']
 
-export function AuthContextProvider({ children }: { children: React.ReactNode }) {
+export function AuthContextProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const locale = useLocale()
   const router = useRouter()
   const queryClient = useQueryClient()
@@ -59,7 +71,7 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
     (next: AuthResponse) => {
       queryClient.setQueryData(AUTH_QUERY_KEY, next)
     },
-    [queryClient]
+    [queryClient],
   )
 
   const clearAuthState = useCallback(() => {
@@ -128,12 +140,12 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
    */
   useListenAuthEvents(
     () => clearAuthState(),
-    user => {
+    (user) => {
       if (user) {
         // setUserInfo(user)
         queryClient.invalidateQueries({ queryKey: AUTH_QUERY_KEY })
       }
-    }
+    },
   )
 
   /**
@@ -165,7 +177,7 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
 
       await queryClient.invalidateQueries({ queryKey: AUTH_QUERY_KEY })
     },
-    [locale, queryClient]
+    [locale, queryClient],
   )
 
   const loginOauth = useCallback(
@@ -191,7 +203,7 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
 
       await queryClient.invalidateQueries({ queryKey: AUTH_QUERY_KEY })
     },
-    [locale, queryClient]
+    [locale, queryClient],
   )
 
   const register = useCallback(
@@ -219,7 +231,7 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
 
       await queryClient.invalidateQueries({ queryKey: AUTH_QUERY_KEY })
     },
-    [locale, queryClient]
+    [locale, queryClient],
   )
 
   const logout = useCallback(
@@ -234,7 +246,7 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
         router.push(callbackUrl || `/${locale}`)
       }
     },
-    [clearAuthState, locale, router]
+    [clearAuthState, locale, router],
   )
 
   const value: AuthContextValue = {

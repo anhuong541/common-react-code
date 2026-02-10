@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 export interface ActiveFilter {
   id: string
@@ -23,12 +23,15 @@ export interface UseFiltersOptions {
   onFiltersChange?: (filters: ActiveFilter[]) => void
 }
 
-export function useFilters({ filters: filterConfigs, onFiltersChange }: UseFiltersOptions) {
+export function useFilters({
+  filters: filterConfigs,
+  onFiltersChange,
+}: UseFiltersOptions) {
   const [activeFilters, setActiveFilters] = useState<ActiveFilter[]>([])
 
   const addFilter = useCallback(
     (filterId: string, value: any, displayValue: string) => {
-      const filterConfig = filterConfigs.find(f => f.id === filterId)
+      const filterConfig = filterConfigs.find((f) => f.id === filterId)
       if (!filterConfig) {
         return
       }
@@ -37,28 +40,28 @@ export function useFilters({ filters: filterConfigs, onFiltersChange }: UseFilte
         id: filterId,
         label: filterConfig.label,
         value,
-        displayValue
+        displayValue,
       }
 
-      setActiveFilters(prev => {
-        const updated = prev.filter(f => f.id !== filterId)
+      setActiveFilters((prev) => {
+        const updated = prev.filter((f) => f.id !== filterId)
         updated.push(newFilter)
         onFiltersChange?.(updated)
         return updated
       })
     },
-    [filterConfigs, onFiltersChange]
+    [filterConfigs, onFiltersChange],
   )
 
   const removeFilter = useCallback(
     (filterId: string) => {
-      setActiveFilters(prev => {
-        const updated = prev.filter(f => f.id !== filterId)
+      setActiveFilters((prev) => {
+        const updated = prev.filter((f) => f.id !== filterId)
         onFiltersChange?.(updated)
         return updated
       })
     },
-    [onFiltersChange]
+    [onFiltersChange],
   )
 
   const clearAllFilters = useCallback(() => {
@@ -68,27 +71,29 @@ export function useFilters({ filters: filterConfigs, onFiltersChange }: UseFilte
 
   const updateFilter = useCallback(
     (filterId: string, value: any, displayValue: string) => {
-      setActiveFilters(prev => {
-        const updated = prev.map(f => (f.id === filterId ? { ...f, value, displayValue } : f))
+      setActiveFilters((prev) => {
+        const updated = prev.map((f) =>
+          f.id === filterId ? { ...f, value, displayValue } : f,
+        )
         onFiltersChange?.(updated)
         return updated
       })
     },
-    [onFiltersChange]
+    [onFiltersChange],
   )
 
   const getFilterValue = useCallback(
     (filterId: string) => {
-      return activeFilters.find(f => f.id === filterId)?.value
+      return activeFilters.find((f) => f.id === filterId)?.value
     },
-    [activeFilters]
+    [activeFilters],
   )
 
   const hasFilter = useCallback(
     (filterId: string) => {
-      return activeFilters.some(f => f.id === filterId)
+      return activeFilters.some((f) => f.id === filterId)
     },
-    [activeFilters]
+    [activeFilters],
   )
 
   const filterCount = useMemo(() => activeFilters.length, [activeFilters])
@@ -101,7 +106,7 @@ export function useFilters({ filters: filterConfigs, onFiltersChange }: UseFilte
     updateFilter,
     getFilterValue,
     hasFilter,
-    filterCount
+    filterCount,
   }
 }
 
@@ -109,14 +114,14 @@ export function useFilters({ filters: filterConfigs, onFiltersChange }: UseFilte
 export function applyFilters<T>(
   data: T[],
   filters: ActiveFilter[],
-  filterFunctions: Record<string, (item: T, value: any) => boolean>
+  filterFunctions: Record<string, (item: T, value: any) => boolean>,
 ): T[] {
   if (filters.length === 0) {
     return data
   }
 
-  return data.filter(item => {
-    return filters.every(filter => {
+  return data.filter((item) => {
+    return filters.every((filter) => {
       const filterFunction = filterFunctions[filter.id]
       if (!filterFunction) {
         return true
@@ -161,5 +166,5 @@ export const commonFilterFunctions = {
       return fieldValue.includes(value)
     }
     return fieldValue === value
-  }
+  },
 }

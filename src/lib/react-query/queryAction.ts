@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import queryKeys from './queryKeys'
 
 export const useExampleQuery = (params: Record<string, string>) => {
@@ -6,7 +6,7 @@ export const useExampleQuery = (params: Record<string, string>) => {
     queryKey: [queryKeys.queryKey1, params],
     queryFn: () => {
       // handle query
-    }
+    },
   })
 }
 
@@ -16,6 +16,6 @@ export const useExampleMutation = () => {
       // handle mutation
       console.log({ params })
       return Promise.resolve()
-    }
+    },
   })
 }

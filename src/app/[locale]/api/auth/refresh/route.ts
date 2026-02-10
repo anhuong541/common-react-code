@@ -7,14 +7,20 @@ export async function POST() {
     } // TODO: get tokens
 
     if (!tokens || !tokens.refreshToken) {
-      return NextResponse.json({ error: 'No refresh token available' }, { status: 401 })
+      return NextResponse.json(
+        { error: 'No refresh token available' },
+        { status: 401 },
+      )
     }
 
     // Call refresh token action over here!!!
     const tokensRefreshed = null // TODO: Add refresh token action
 
     if (!tokensRefreshed) {
-      return NextResponse.json({ error: 'Invalid refresh token' }, { status: 401 })
+      return NextResponse.json(
+        { error: 'Invalid refresh token' },
+        { status: 401 },
+      )
     }
 
     const newTokens = {
@@ -31,6 +37,9 @@ export async function POST() {
     })
   } catch (error) {
     console.error('Token refresh error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 },
+    )
   }
 }

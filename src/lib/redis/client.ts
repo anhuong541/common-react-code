@@ -12,7 +12,9 @@ export function getRedisClient(): Redis | Cluster | null {
   if (!redisClient) {
     try {
       const isCluster = process.env.REDIS_CLUSTER?.toLowerCase() === 'true'
-      const hosts = process.env.REDIS_HOSTS.split(',').map(host => host.trim())
+      const hosts = process.env.REDIS_HOSTS.split(',').map((host) =>
+        host.trim(),
+      )
       const port = parseInt(process.env.REDIS_PORT || '6379', 10)
       const password = process.env.REDIS_PASSWORD || undefined
 
@@ -33,7 +35,7 @@ export function getRedisClient(): Redis | Cluster | null {
 
       if (isCluster) {
         // Redis Cluster configuration
-        const clusterNodes = hosts.map(host => ({ host, port }))
+        const clusterNodes = hosts.map((host) => ({ host, port }))
         redisClient = new Cluster(clusterNodes, {
           redisOptions: {
             password,
@@ -48,7 +50,7 @@ export function getRedisClient(): Redis | Cluster | null {
           // scaleReads: 'slave',
         })
 
-        redisClient.on('error', err => {
+        redisClient.on('error', (err) => {
           console.error('Redis Cluster Error:', err)
         })
 
@@ -64,7 +66,7 @@ export function getRedisClient(): Redis | Cluster | null {
           ...commonOptions,
         })
 
-        redisClient.on('error', err => {
+        redisClient.on('error', (err) => {
           console.error('Redis Client Error:', err)
         })
 

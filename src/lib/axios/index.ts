@@ -11,7 +11,7 @@ const applyInterceptors = (instance: AxiosInstance) => {
       // Any status codes that falls outside the range of 2xx cause this function to trigger
       // Do something with response error
       return Promise.reject(error)
-    }
+    },
   )
 
   instance.interceptors.request.use(
@@ -24,7 +24,7 @@ const applyInterceptors = (instance: AxiosInstance) => {
       // Any status codes that falls outside the range of 2xx cause this function to trigger
       // Do something with request error
       return Promise.reject(error)
-    }
+    },
   )
 }
 

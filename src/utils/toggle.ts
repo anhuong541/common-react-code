@@ -21,7 +21,7 @@ export const createToggleStore = (): ToggleStore => {
 
   const setToggle = (key: string, value: boolean) => {
     state = { ...state, [key]: value }
-    listeners.forEach(listener => listener())
+    listeners.forEach((listener) => listener())
   }
 
   const toggle = (key: string) => {

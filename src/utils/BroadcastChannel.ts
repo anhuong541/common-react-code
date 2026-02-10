@@ -33,12 +33,12 @@ export const notifyLogin = (user: any | null) => {
 
 export const useListenAuthEvents = (
   onLogout: () => void,
-  onLogin?: (user: any | null) => void // TODO: Add user type
+  onLogin?: (user: any | null) => void, // TODO: Add user type
 ) => {
   useEffect(() => {
     const channel = initBroadcastChannel()
     if (channel) {
-      channel.onmessage = event => {
+      channel.onmessage = (event) => {
         const { type, user } = event.data
 
         if (type === 'LOGOUT') {

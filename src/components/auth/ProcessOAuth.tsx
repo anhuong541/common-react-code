@@ -16,7 +16,8 @@ export default function ProcessOAuth() {
     const processOAuthCallback = async () => {
       try {
         console.group('processOAuthCallback')
-        const isPopup = window.opener && window.opener !== window && !window.opener.closed
+        const isPopup =
+          window.opener && window.opener !== window && !window.opener.closed
 
         const dataParam = searchParams.get('data')
         const error = searchParams.get('error')

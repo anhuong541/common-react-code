@@ -99,7 +99,9 @@ export function GoogleOneTapLogin({ isAuthenticated }: Props) {
 
   // Early return if no client ID is configured
   if (!GOOGLE_CLIENT_ID) {
-    console.warn('Google One Tap: NEXT_PUBLIC_GOOGLE_CLIENT_ID is not configured')
+    console.warn(
+      'Google One Tap: NEXT_PUBLIC_GOOGLE_CLIENT_ID is not configured',
+    )
     return null
   }
 
@@ -115,7 +117,11 @@ export function GoogleOneTapLogin({ isAuthenticated }: Props) {
 
       const result = tokens.data.data
 
-      await loginOauth(result.accessToken, result.refreshToken, result.expiresAt)
+      await loginOauth(
+        result.accessToken,
+        result.refreshToken,
+        result.expiresAt,
+      )
 
       setTimeout(() => {
         router.refresh()
@@ -123,7 +129,9 @@ export function GoogleOneTapLogin({ isAuthenticated }: Props) {
     } catch (error) {
       console.error('Google One Tap authentication failed:', error)
       const errorMessage =
-        error instanceof Error ? error.message : 'Đăng nhập Google One Tap thất bại'
+        error instanceof Error
+          ? error.message
+          : 'Đăng nhập Google One Tap thất bại'
       setError(errorMessage)
     }
   }
@@ -152,15 +160,20 @@ export function GoogleOneTapLogin({ isAuthenticated }: Props) {
 
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             google.accounts.id.prompt((notification: any) => {
-              if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+              if (
+                notification.isNotDisplayed() ||
+                notification.isSkippedMoment()
+              ) {
                 console.log(
                   'Google One Tap prompt not displayed:',
-                  notification.getNotDisplayedReason()
+                  notification.getNotDisplayedReason(),
                 )
               }
             })
           } else {
-            console.warn('Google One Tap: Script loaded but API not available or client ID missing')
+            console.warn(
+              'Google One Tap: Script loaded but API not available or client ID missing',
+            )
           }
         }}
       />

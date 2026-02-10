@@ -23,7 +23,7 @@ export function GeolocationPrompt() {
     if ('permissions' in navigator) {
       navigator.permissions
         .query({ name: 'geolocation' })
-        .then(permissionStatus => {
+        .then((permissionStatus) => {
           // Only prompt if permission has not been decided yet
           if (permissionStatus.state === 'prompt') {
             // Trigger the native browser geolocation prompt
@@ -33,7 +33,7 @@ export function GeolocationPrompt() {
             localStorage.setItem(GEOLOCATION_PROMPT_KEY, 'true')
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.error('Error checking geolocation permission:', error)
           // Fallback: try to request anyway
           requestGeolocation()
@@ -46,7 +46,7 @@ export function GeolocationPrompt() {
 
   const requestGeolocation = () => {
     navigator.geolocation.getCurrentPosition(
-      position => {
+      (position) => {
         // Success: User granted permission
         console.log('Geolocation granted:', {
           latitude: position.coords.latitude,
@@ -57,7 +57,7 @@ export function GeolocationPrompt() {
         // Here you can save the location to state/context/API if needed
         // Example: saveUserLocation(position.coords);
       },
-      error => {
+      (error) => {
         // Error: User denied permission or other error
         console.warn('Geolocation denied or error:', error.message)
         localStorage.setItem(GEOLOCATION_PROMPT_KEY, 'true')
@@ -66,7 +66,7 @@ export function GeolocationPrompt() {
         enableHighAccuracy: false,
         timeout: 10000,
         maximumAge: 0,
-      }
+      },
     )
   }
 

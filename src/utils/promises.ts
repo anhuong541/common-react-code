@@ -5,9 +5,12 @@ type Result<T, E = Error> = Success<T> | Failure<E>
 type Success<T> = { data: T; error: null }
 type Failure<E> = { data: null; error: E }
 
-export const wait = async (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+export const wait = async (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms))
 
-export async function tryCatch<T, E = Error>(promise: Promise<T>): Promise<Result<T, E>> {
+export async function tryCatch<T, E = Error>(
+  promise: Promise<T>,
+): Promise<Result<T, E>> {
   try {
     return { data: await promise, error: null }
   } catch (error) {
@@ -54,7 +57,9 @@ function generateCurlCommand(options: RequestCurlOptions): string {
       // If not explicitly set, add Content-Type: application/json header
       if (
         !options.headers ||
-        !Object.keys(options.headers).some(h => h.toLowerCase() === 'content-type')
+        !Object.keys(options.headers).some(
+          (h) => h.toLowerCase() === 'content-type',
+        )
       ) {
         command += ` -H 'Content-Type: application/json'`
       }

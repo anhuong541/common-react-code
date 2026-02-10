@@ -1,7 +1,5 @@
-import { useState, useEffect } from 'react'
-
-import { User, onAuthStateChanged } from 'firebase/auth'
-
+import { useEffect, useState } from 'react'
+import { onAuthStateChanged, User } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
 
 type FirebaseAuthState = {
@@ -14,7 +12,7 @@ export const useFirebaseAuth = (): FirebaseAuthState => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, currentUser => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser)
       setLoading(false)
     })

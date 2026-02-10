@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react'
 
-export default function useEffectOnlyOnUpdate(effect: () => void | (() => void)) {
+export default function useEffectOnlyOnUpdate(
+  effect: () => void | (() => void),
+) {
   const ignoreRef = useRef(true)
   useEffect(() => {
     let cleanUp: void | (() => void) = undefined

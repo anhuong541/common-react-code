@@ -1,6 +1,9 @@
-import { setToggle as setToggleAction, useSettingReduxToggle } from '@/lib/redux/slices/toggleSlice'
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import {
+  setToggle as setToggleAction,
+  useSettingReduxToggle,
+} from '@/lib/redux/slices/toggleSlice'
 
 export default function useAppReduxToggle() {
   const dispatch = useDispatch()
@@ -10,30 +13,33 @@ export default function useAppReduxToggle() {
     (key: string) => {
       dispatch(setToggleAction({ key, value: true }))
     },
-    [dispatch]
+    [dispatch],
   )
 
   const handleClose = useCallback(
     (key: string) => {
       dispatch(setToggleAction({ key, value: false }))
     },
-    [dispatch]
+    [dispatch],
   )
 
   const handleToggle = useCallback(
     (key: string) => {
       dispatch(setToggleAction({ key, value: !toggleState[key] }))
     },
-    [dispatch, toggleState]
+    [dispatch, toggleState],
   )
 
-  const isModalOpen = useCallback((key: string) => toggleState[key], [toggleState])
+  const isModalOpen = useCallback(
+    (key: string) => toggleState[key],
+    [toggleState],
+  )
 
   return {
     toggleState,
     handleOpen,
     handleClose,
     handleToggle,
-    isModalOpen
+    isModalOpen,
   }
 }

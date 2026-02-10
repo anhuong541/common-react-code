@@ -30,14 +30,17 @@ export function useHandleSearchParams() {
 
   // Core function to update search params
   const updateSearchParams = useCallback(
-    (updates: SearchParamsObject, options?: { replace?: boolean; scroll?: boolean }) => {
+    (
+      updates: SearchParamsObject,
+      options?: { replace?: boolean; scroll?: boolean },
+    ) => {
       const newSearchParams = new URLSearchParams(searchParams)
       Object.entries(updates).forEach(([key, value]) => {
         if (value === undefined || value === null || value === '') {
           newSearchParams.delete(key)
         } else if (Array.isArray(value)) {
           newSearchParams.delete(key)
-          value.forEach(v => newSearchParams.append(key, v))
+          value.forEach((v) => newSearchParams.append(key, v))
         } else {
           newSearchParams.set(key, String(value))
         }
@@ -50,15 +53,19 @@ export function useHandleSearchParams() {
         router.push(newUrl, { scroll: options?.scroll ?? true })
       }
     },
-    [searchParams, pathname, router]
+    [searchParams, pathname, router],
   )
 
   // Set single parameter
   const setParam = useCallback(
-    (key: string, value: string | number, options?: { replace?: boolean; scroll?: boolean }) => {
+    (
+      key: string,
+      value: string | number,
+      options?: { replace?: boolean; scroll?: boolean },
+    ) => {
       updateSearchParams({ [key]: String(value) }, options)
     },
-    [updateSearchParams]
+    [updateSearchParams],
   )
 
   // Toggle parameter (useful for boolean-like params)
@@ -67,32 +74,40 @@ export function useHandleSearchParams() {
       key: string,
       onValue = 'true',
       offValue?: string,
-      options?: { replace?: boolean; scroll?: boolean }
+      options?: { replace?: boolean; scroll?: boolean },
     ) => {
       const currentValue = searchParams.get(key)
       const newValue = currentValue === onValue ? offValue : onValue
       updateSearchParams({ [key]: newValue }, options)
     },
-    [searchParams, updateSearchParams]
+    [searchParams, updateSearchParams],
   )
 
   // Add to array parameter (for multi-select scenarios)
   const addToArrayParam = useCallback(
-    (key: string, value: string, options?: { replace?: boolean; scroll?: boolean }) => {
+    (
+      key: string,
+      value: string,
+      options?: { replace?: boolean; scroll?: boolean },
+    ) => {
       const currentValues = searchParams.getAll(key)
       if (!currentValues.includes(value)) {
         const newValues = [...currentValues, value]
         updateSearchParams({ [key]: newValues }, options)
       }
     },
-    [searchParams, updateSearchParams]
+    [searchParams, updateSearchParams],
   )
 
   // Remove from array parameter
   const removeFromArrayParam = useCallback(
-    (key: string, value: string, options?: { replace?: boolean; scroll?: boolean }) => {
+    (
+      key: string,
+      value: string,
+      options?: { replace?: boolean; scroll?: boolean },
+    ) => {
       const currentValues = searchParams.getAll(key)
-      const newValues = currentValues.filter(v => v !== value)
+      const newValues = currentValues.filter((v) => v !== value)
 
       if (newValues.length === 0) {
         updateSearchParams({ [key]: undefined }, options)
@@ -100,7 +115,7 @@ export function useHandleSearchParams() {
         updateSearchParams({ [key]: newValues }, options)
       }
     },
-    [searchParams, updateSearchParams]
+    [searchParams, updateSearchParams],
   )
 
   // Clear all parameters
@@ -112,18 +127,18 @@ export function useHandleSearchParams() {
       })
       updateSearchParams(clearedParams, options)
     },
-    [searchParams, updateSearchParams]
+    [searchParams, updateSearchParams],
   )
 
   const clearParams = useCallback(
     (keys: string[], options?: { replace?: boolean; scroll?: boolean }) => {
       const clearedParams: SearchParamsObject = {}
-      keys.forEach(key => {
+      keys.forEach((key) => {
         clearedParams[key] = undefined
       })
       updateSearchParams(clearedParams, options)
     },
-    [updateSearchParams]
+    [updateSearchParams],
   )
 
   // Utility functions
@@ -131,21 +146,21 @@ export function useHandleSearchParams() {
     (key: string): string | null => {
       return searchParams.get(key)
     },
-    [searchParams]
+    [searchParams],
   )
 
   const getArrayParam = useCallback(
     (key: string): string[] => {
       return searchParams.getAll(key)
     },
-    [searchParams]
+    [searchParams],
   )
 
   const hasParam = useCallback(
     (key: string): boolean => {
       return searchParams.has(key)
     },
-    [searchParams]
+    [searchParams],
   )
 
   const getParamAsNumber = useCallback(
@@ -155,7 +170,7 @@ export function useHandleSearchParams() {
       const num = Number(value)
       return isNaN(num) ? defaultValue : num
     },
-    [searchParams]
+    [searchParams],
   )
 
   const getParamAsBoolean = useCallback(
@@ -163,7 +178,7 @@ export function useHandleSearchParams() {
       const value = searchParams.get(key)
       return value === 'true' || value === '1' || value === 'on'
     },
-    [searchParams]
+    [searchParams],
   )
 
   return {

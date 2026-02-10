@@ -30,7 +30,9 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
-      <body className={cn(geistSans.variable, geistMono.variable, 'antialiased')}>
+      <body
+        className={cn(geistSans.variable, geistMono.variable, 'antialiased')}
+      >
         <Providers>{children}</Providers>
       </body>
     </html>

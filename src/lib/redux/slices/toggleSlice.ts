@@ -11,10 +11,13 @@ const toggleSlice = createSlice({
   name: 'toggle-state',
   initialState,
   reducers: {
-    setToggle: (state, action: PayloadAction<{ key: string; value: boolean }>) => {
+    setToggle: (
+      state,
+      action: PayloadAction<{ key: string; value: boolean }>,
+    ) => {
       state[action.payload.key] = action.payload.value
-    }
-  }
+    },
+  },
 })
 
 export const { setToggle } = toggleSlice.actions

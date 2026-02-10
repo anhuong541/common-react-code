@@ -6,7 +6,11 @@ import ContextProvider from '@/contexts/ContextProvider'
 
 const queryClient = new QueryClient()
 
-export default function ClientProvider({ children }: { children: React.ReactNode }) {
+export default function ClientProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <ContextProvider>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>

@@ -1,5 +1,8 @@
 import parse from 'html-react-parser'
-import { useLocale, useTranslations as useNextIntlTranslations } from 'next-intl'
+import {
+  useLocale,
+  useTranslations as useNextIntlTranslations,
+} from 'next-intl'
 import { formatHtmlWithIntl, hasHtmlTag, hasVariable } from '@/utils/decodeHTML'
 
 export interface CustomTranslationOptions {
@@ -10,7 +13,11 @@ export default function useTranslations(namespace?: string) {
   const t = useNextIntlTranslations(namespace)
   const locale = useLocale()
 
-  return (key: string, values?: Record<string, any>, options?: CustomTranslationOptions) => {
+  return (
+    key: string,
+    values?: Record<string, any>,
+    options?: CustomTranslationOptions,
+  ) => {
     const raw = t.raw(key)
 
     if (typeof raw !== 'string') {

@@ -47,7 +47,7 @@ export function useSearch(options: UseSearchOptions = {}): UseSearchReturn {
       setIsSearching(true)
       debouncedSearch(searchString)
     },
-    [debouncedSearch]
+    [debouncedSearch],
   )
 
   const clearSearch = useCallback(() => {

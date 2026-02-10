@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 const existingEmails: string[] = ['jane.doe@example.com']
 
 const findJobseekerByEmail = async (email: string) => {
-  await new Promise(resolve => setTimeout(resolve, 50))
+  await new Promise((resolve) => setTimeout(resolve, 50))
 
   const isFound = existingEmails.includes(email.toLowerCase())
 
@@ -20,13 +20,19 @@ export async function GET(request: NextRequest) {
     const email = searchParams.get('email')
 
     if (!email) {
-      return NextResponse.json({ error: 'LANG_ERROR_EMAIL_NULL' }, { status: 400 })
+      return NextResponse.json(
+        { error: 'LANG_ERROR_EMAIL_NULL' },
+        { status: 400 },
+      )
     }
 
     const existingUser = await findJobseekerByEmail(email)
 
     if (existingUser) {
-      return NextResponse.json({ error: 'js_register_email_exist_new' }, { status: 409 })
+      return NextResponse.json(
+        { error: 'js_register_email_exist_new' },
+        { status: 409 },
+      )
     }
 
     // 4. Send Success Response

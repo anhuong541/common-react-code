@@ -1,7 +1,7 @@
 'use client'
 
-import ProcessOAuth from '@/components/Home/components/ProcessOAuth'
 import { Suspense } from 'react'
+import ProcessOAuth from '@/components/Home/components/ProcessOAuth'
 
 export default function OAuthPage() {
   return (

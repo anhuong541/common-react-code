@@ -1,6 +1,11 @@
 'use client'
 
-import { createContext, useCallback, useMemo, useSyncExternalStore } from 'react'
+import {
+  createContext,
+  useCallback,
+  useMemo,
+  useSyncExternalStore,
+} from 'react'
 import { createToggleStore } from '@/utils/toggle'
 
 const toggleStore = createToggleStore()
@@ -23,7 +28,11 @@ export const ToggleStateContext = createContext<{
  *
  * []
  */
-export function ToggleStateContextProvider({ children }: { children: React.ReactNode }) {
+export function ToggleStateContextProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const handleOpen = useCallback((key: string) => {
     toggleStore.setToggle(key, true)
   }, [])
@@ -38,16 +47,18 @@ export function ToggleStateContextProvider({ children }: { children: React.React
 
   const isToggleOpen = (key: string) => {
     return useSyncExternalStore(
-      callback => toggleStore.subscribe(callback),
+      (callback) => toggleStore.subscribe(callback),
       () => toggleStore.getState()[key] ?? false,
-      () => false // <-- getServerSnapshot fallback (for SSR)
+      () => false, // <-- getServerSnapshot fallback (for SSR)
     )
   }
 
   const contextValue = useMemo(
     () => ({ handleOpen, handleClose, handleToggle, isToggleOpen }),
-    [handleClose, handleOpen, handleToggle, isToggleOpen]
+    [handleClose, handleOpen, handleToggle, isToggleOpen],
   )
 
-  return <ToggleStateContext value={contextValue}>{children}</ToggleStateContext>
+  return (
+    <ToggleStateContext value={contextValue}>{children}</ToggleStateContext>
+  )
 }

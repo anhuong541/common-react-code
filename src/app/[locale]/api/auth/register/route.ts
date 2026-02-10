@@ -26,7 +26,9 @@ export async function POST(request: NextRequest) {
     // Check request origin
     const headersList = await headers()
     const origin = headersList.get('origin')
-    const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3000']
+    const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [
+      'http://localhost:3000',
+    ]
 
     if (!origin || !allowedOrigins.includes(origin)) {
       return NextResponse.json({ error: 'Invalid origin' }, { status: 403 })
@@ -36,7 +38,10 @@ export async function POST(request: NextRequest) {
     const user = null // TODO: Add registration action
 
     if (!user) {
-      return NextResponse.json({ error: 'Registration failed' }, { status: 500 })
+      return NextResponse.json(
+        { error: 'Registration failed' },
+        { status: 500 },
+      )
     }
 
     // Generate new CSRF token for next request
@@ -55,7 +60,10 @@ export async function POST(request: NextRequest) {
       }
 
       if (error.status === 400) {
-        return NextResponse.json({ error: error.response?.data.message }, { status: 400 })
+        return NextResponse.json(
+          { error: error.response?.data.message },
+          { status: 400 },
+        )
       }
     }
     return NextResponse.json({ error: error }, { status: 500 })
